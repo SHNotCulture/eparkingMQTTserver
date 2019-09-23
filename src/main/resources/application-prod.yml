@@ -1,0 +1,32 @@
+server:
+  port: 8100
+spring:
+  jmx:
+    enabled: false
+  application:
+    name: eparkingMqttServer
+  security:
+    user:
+      name: admin
+      password: 123456
+#mq配置
+mqtt:
+  host: tcp://exchange.eparking.top:1883
+  clientid: eparkingOnlineServer1
+  topic: epark3rd/getlocalinfo_result
+  username: eparking
+  password: yxQZDbpeGuZT1Hzr
+  timeout: 10
+  keepalive: 20
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    #prefer-ip-address: true
+  client:
+    registerWithEureka: true #是否将自己注册到eureka server，构建集群环境时，需将自己注册到集群中，默认为true
+    fetchRegistry: true #是否从eureka server获取注册信息，构建集群环境时，需同步其他eureka server节点，默认为true
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@172.18.171.83:8086/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@172.18.171.83:8087/eureka/
+  feign:
+    hystrix:
+      enabled: true

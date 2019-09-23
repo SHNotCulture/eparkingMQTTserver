@@ -1,0 +1,39 @@
+server:
+  port: 8090
+spring:
+  jmx:
+    enabled: false
+  application:
+    name: eparkingMqttServer
+  security:
+    user:
+      name: admin
+      password: 123456
+#mq配置
+mqtt:
+  host: tcp://yun1.eparking.top:1883
+  clientid: eparkingOnlineServer1
+  topic: epark3rd/getlocalinfo_result/#,eparklocal/requestInfo_1/#
+  username: eparking
+  password: yxQZDbpeGuZT1Hzr
+  timeout: 10
+  keepalive: 20
+eureka:
+  instance:
+      instanceId: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+      #preferIpAddress: true
+      #prefer-ip-address: true
+  client:
+    serviceUrl:
+      defaultZone: http://${spring.security.user.name}:${spring.security.user.password}@yun2.eparking.top:8086/eureka/eureka/,http://${spring.security.user.name}:${spring.security.user.password}@yun2.eparking.top:8087/eureka/eureka/
+      #defaultZone: http://47.112.10.215:8086/eureka/eureka/
+  feign:
+    hystrix:
+      enabled: true
+    # instance:
+    #hostname: eureka-server1
+    #hostname: yun2.eparking.top
+    #instance-id: yun2.eparking.top:8086
+    # prefer-ip-address: true
+    #ip-address: yun2.eparking.top
+    #non-secure-port: 8086
